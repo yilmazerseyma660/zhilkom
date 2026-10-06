@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Материалы{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Материалы</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Материалы для жителей</h1>
+<p>Здесь собраны статьи и разъяснения по основным жилищным вопросам. Выберите нужный раздел.</p>
+
+{% for c in categories %}
+<section class="mat-block">
+    <h2><a href="{{ url_for('category', slug=c.slug) }}">{{ c.title }}</a></h2>
+    <p class="muted">{{ c.description }}</p>
+    <ul class="plain-list">
+        {% for a in c.articles|sort(attribute='created_at', reverse=true) %}
+        <li><a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endfor %}
+{% endblock %}

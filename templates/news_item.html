@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs">
+    <a href="{{ url_for('index') }}">Главная</a> /
+    <a href="{{ url_for('news_list') }}">Новости</a> /
+    {{ item.title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="layout">
+    <article class="content text">
+        <h1 class="page-title">{{ item.title }}</h1>
+        <p class="date">{{ item.created_at|date_ru }}</p>
+        {% if item.image %}
+        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}" class="img-main">
+        {% endif %}
+        {% for p in item.body.split('\n\n') %}
+        <p>{{ p }}</p>
+        {% endfor %}
+
+        <p><a href="{{ url_for('news_list') }}">Вернуться к списку новостей</a></p>
+
+        {% if other %}
+        <h2 class="section-title">Другие новости</h2>
+        <ul class="plain-list">
+            {% for n in other %}
+            <li><a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a> <span class="muted">{{ n.created_at|date }}</span></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </article>
+
+    {% include '_sidebar.html' %}
+</div>
+{% endblock %}

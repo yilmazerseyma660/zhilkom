@@ -1,0 +1,137 @@
+/*
+  Версия для слабовидящих (ГОСТ Р 52872-2012):
+  - выбор размера шрифта (3 варианта)
+  - цветовые схемы: чёрным по белому, белым по чёрному, тёмно-синим по голубому
+  - отключение изображений
+  - межбуквенный и межстрочный интервал
+  - без анимации и декоративных фонов
+*/
+
+body.vision {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body.vision * {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 1em !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* размер шрифта */
+body.size-1 { font-size: 20px; }
+body.size-2 { font-size: 24px; }
+body.size-3 { font-size: 28px; }
+
+body.vision h1, body.vision .page-title { font-size: 1.6em !important; }
+body.vision h2 { font-size: 1.35em !important; }
+body.vision h3 { font-size: 1.15em !important; }
+body.vision .logo-text b { font-size: 1.3em !important; }
+body.vision .error-code { font-size: 3em !important; }
+
+/* интервалы */
+body.space-1 { letter-spacing: 0; line-height: 1.5; }
+body.space-2 { letter-spacing: .08em; line-height: 1.8; }
+body.space-3 { letter-spacing: .16em; line-height: 2.1; }
+
+body.space-2 *, body.space-3 * {
+    letter-spacing: inherit !important;
+    line-height: inherit !important;
+}
+
+/* цветовые схемы */
+body.scheme-white, body.scheme-white * {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #000 !important;
+}
+
+body.scheme-black, body.scheme-black * {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+body.scheme-blue, body.scheme-blue * {
+    background: #9dd1ff !important;
+    color: #063462 !important;
+    border-color: #063462 !important;
+}
+
+body.vision a {
+    text-decoration: underline !important;
+}
+
+body.vision .btn, body.vision button, body.vision input,
+body.vision textarea, body.vision select, body.vision .menu-list a,
+body.vision .side-banner, body.vision .cat-card, body.vision .msg,
+body.vision .feedback, body.vision .side-box, body.vision .stat {
+    border: 2px solid !important;
+}
+
+/* образцы цветов на панели не перекрашиваем */
+body.vision .vision-panel .s-white { background: #fff !important; color: #000 !important; border-color: #000 !important; }
+body.vision .vision-panel .s-black { background: #000 !important; color: #fff !important; border-color: #fff !important; }
+body.vision .vision-panel .s-blue { background: #9dd1ff !important; color: #063462 !important; border-color: #063462 !important; }
+
+body.vision .vision-panel .vp-a1 { font-size: 18px !important; }
+body.vision .vision-panel .vp-a2 { font-size: 23px !important; }
+body.vision .vision-panel .vp-a3 { font-size: 28px !important; }
+
+/* панель настроек */
+.vision-panel {
+    border-bottom: 2px solid;
+    padding: 10px 0;
+}
+
+.vision-panel .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 25px;
+}
+
+.vp-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vp-btn {
+    display: inline-block;
+    min-width: 40px;
+    padding: 2px 8px;
+    border: 2px solid;
+    text-align: center;
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+.vp-btn.cur {
+    outline: 3px solid;
+    outline-offset: 2px;
+}
+
+/* отключение картинок */
+body.img-off img,
+body.img-off .slide-pic,
+body.img-off .news-row-img {
+    display: none !important;
+}
+
+/* упрощаем раскладку */
+body.vision .eye-link img { display: none; }
+body.vision .slider-dots { display: none; }
+body.vision .slide { display: flex; min-height: 0; padding: 20px; }
+body.vision .slide + .slide { border-top: 2px solid; }
+body.vision .slide-pic { width: 220px; }
+body.vision .layout { flex-direction: column; }
+body.vision .sidebar { width: 100%; }
+body.vision .cat-grid { grid-template-columns: 1fr; }
+body.vision .header-search input { width: 300px; }
+body.vision .sub-menu { display: none !important; }
+body.vision .menu-list { gap: 6px; padding: 8px 0; }
+body.vision .img-right { float: none; display: block; margin: 0 0 15px; }
+body.vision .footer-note { max-width: none; }

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Панель управления</h1>
+{% include 'panel/_nav.html' %}
+
+<p><a href="{{ url_for('user_new') }}" class="btn">Добавить пользователя</a></p>
+
+<div class="table-wrap">
+<table class="table">
+    <tr><th>Логин</th><th>ФИО</th><th>Роль</th><th>E-mail</th><th>Телефон</th><th>Создан</th><th>Статус</th><th></th></tr>
+    {% for u in users %}
+    <tr>
+        <td>{{ u.login }}</td>
+        <td>{{ u.fio }}</td>
+        <td>{{ u.role_name }}</td>
+        <td>{{ u.email or '' }}</td>
+        <td>{{ u.phone or '' }}</td>
+        <td>{{ u.created_at|date }}</td>
+        <td>{{ 'активен' if u.active else 'заблокирован' }}</td>
+        <td>
+            {% if current_user.is_admin %}
+            <a href="{{ url_for('user_edit', uid=u.id) }}">изменить</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+<div class="note">
+    <b>Права доступа.</b> Житель может отправлять обращения и вести переписку по ним.
+    Сотрудник комитета отвечает на обращения, добавляет новости и статьи, может завести
+    учётную запись жителю (например, на личном приёме). Администратор дополнительно
+    назначает роли и блокирует пользователей.
+</div>
+{% endblock %}

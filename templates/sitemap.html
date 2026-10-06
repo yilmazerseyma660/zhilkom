@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Карта сайта{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Карта сайта</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Карта сайта</h1>
+
+<ul class="sitemap">
+    <li><a href="{{ url_for('index') }}">Главная</a></li>
+    <li><a href="{{ url_for('about') }}">О комитете</a></li>
+    <li>
+        <a href="{{ url_for('news_list') }}">Новости</a>
+        <ul>
+            {% for n in news %}
+            <li><a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="{{ url_for('materials') }}">Материалы</a>
+        <ul>
+            {% for c in categories %}
+            <li>
+                <a href="{{ url_for('category', slug=c.slug) }}">{{ c.title }}</a>
+                <ul>
+                    {% for a in c.articles %}
+                    <li><a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li><a href="{{ url_for('contacts') }}">Контакты</a></li>
+    <li><a href="{{ url_for('search') }}">Поиск по сайту</a></li>
+    <li><a href="{{ url_for('login') }}">Вход</a> / <a href="{{ url_for('register') }}">Регистрация</a></li>
+    <li><a href="{{ url_for('cabinet') }}">Личный кабинет</a> (после входа)</li>
+    <li><a href="{{ url_for('panel') }}">Панель управления</a> (для сотрудников)</li>
+</ul>
+{% endblock %}

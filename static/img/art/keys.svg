@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <rect width="600" height="360" fill="#f6f1e6"/>
+  <circle cx="220" cy="180" r="70" fill="none" stroke="#c08a2a" stroke-width="28"/>
+  <rect x="280" y="166" width="210" height="28" fill="#c08a2a"/>
+  <rect x="420" y="194" width="22" height="45" fill="#c08a2a"/>
+  <rect x="460" y="194" width="22" height="32" fill="#c08a2a"/>
+  <circle cx="220" cy="180" r="18" fill="#1f4e79"/>
+  <rect x="90" y="260" width="120" height="60" rx="8" fill="#1f4e79"/>
+  <text x="150" y="298" font-family="Arial" font-size="22" fill="#fff" text-anchor="middle">кв. 47</text>
+</svg>

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="slider" id="slider">
+    <div class="slide active">
+        <div class="slide-text">
+            <h2>Программа «Молодая семья» на 2027 год</h2>
+            <p>Приём заявлений от семей, желающих получить социальную выплату на покупку жилья, продлится до 31 октября 2026 года.</p>
+            <a href="{{ url_for('category', slug='programmy') }}" class="btn btn-light">Подробнее о программе</a>
+        </div>
+        <img class="slide-pic" src="{{ url_for('static', filename='img/slides/slide1.svg') }}" alt="Семья у нового дома">
+    </div>
+    <div class="slide">
+        <div class="slide-text">
+            <h2>Отопительный сезон 2026–2027</h2>
+            <p>Если в квартире холодно, сначала обратитесь в управляющую компанию. Если вопрос не решён — напишите нам.</p>
+            <a href="{{ url_for('news_list') }}" class="btn btn-light">Читать новости</a>
+        </div>
+        <img class="slide-pic" src="{{ url_for('static', filename='img/slides/slide2.svg') }}" alt="Многоквартирный дом зимой">
+    </div>
+    <div class="slide">
+        <div class="slide-text">
+            <h2>Электронная приёмная</h2>
+            <p>Зарегистрируйтесь на сайте и отправьте обращение специалисту комитета, не приходя на приём.</p>
+            <a href="{{ url_for('register') }}" class="btn btn-light">Зарегистрироваться</a>
+        </div>
+        <img class="slide-pic" src="{{ url_for('static', filename='img/slides/slide3.svg') }}" alt="Письмо и документы">
+    </div>
+    <div class="slider-dots">
+        <button type="button" class="active" aria-label="Слайд 1"></button>
+        <button type="button" aria-label="Слайд 2"></button>
+        <button type="button" aria-label="Слайд 3"></button>
+    </div>
+</section>
+
+<div class="layout">
+    <div class="content">
+        <h1 class="page-title">Новости комитета</h1>
+        <div class="news-feed">
+            {% for n in news %}
+            <article class="news-row">
+                {% if n.image %}
+                <a href="{{ url_for('news_item', news_id=n.id) }}" class="news-row-img">
+                    <img src="{{ url_for('static', filename=n.image) }}" alt="{{ n.title }}">
+                </a>
+                {% endif %}
+                <div>
+                    <span class="date">{{ n.created_at|date_ru }}</span>
+                    <h3><a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a></h3>
+                    <p>{{ n.summary }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <p><a href="{{ url_for('news_list') }}">Все новости</a></p>
+
+        <h2 class="section-title">Разделы сайта</h2>
+        <div class="cat-grid">
+            {% for c in menu_categories %}
+            <a href="{{ url_for('category', slug=c.slug) }}" class="cat-card">
+                <b>{{ c.title }}</b>
+                <span>{{ c.description }}</span>
+            </a>
+            {% endfor %}
+        </div>
+
+        <h2 class="section-title">Новые материалы</h2>
+        <ul class="plain-list">
+            {% for a in articles %}
+            <li>
+                <a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a>
+                <span class="muted">({{ a.category.title }}, {{ a.created_at|date }})</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% include '_sidebar.html' %}
+</div>
+{% endblock %}

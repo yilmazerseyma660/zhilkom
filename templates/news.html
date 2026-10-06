@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Новости{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Новости</div>
+{% endblock %}
+
+{% block content %}
+<div class="layout">
+    <div class="content">
+        <h1 class="page-title">Новости</h1>
+        <div class="news-feed">
+            {% for n in pagination.items %}
+            <article class="news-row">
+                {% if n.image %}
+                <a href="{{ url_for('news_item', news_id=n.id) }}" class="news-row-img">
+                    <img src="{{ url_for('static', filename=n.image) }}" alt="{{ n.title }}">
+                </a>
+                {% endif %}
+                <div>
+                    <span class="date">{{ n.created_at|date_ru }}</span>
+                    <h3><a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a></h3>
+                    <p>{{ n.summary }}</p>
+                </div>
+            </article>
+            {% else %}
+            <p>Новостей пока нет.</p>
+            {% endfor %}
+        </div>
+
+        {% if pagination.pages > 1 %}
+        <div class="pages">
+            {% for p in range(1, pagination.pages + 1) %}
+                {% if p == pagination.page %}
+                <span class="cur">{{ p }}</span>
+                {% else %}
+                <a href="{{ url_for('news_list', page=p) }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% include '_sidebar.html' %}
+</div>
+{% endblock %}

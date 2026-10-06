@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}{{ cat.title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs">
+    <a href="{{ url_for('index') }}">Главная</a> /
+    <a href="{{ url_for('materials') }}">Материалы</a> /
+    {{ cat.title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="layout">
+    <div class="content">
+        <h1 class="page-title">{{ cat.title }}</h1>
+        <p>{{ cat.description }}</p>
+
+        <div class="art-list">
+            {% for a in articles %}
+            <div class="art-item">
+                {% if a.image %}
+                <a href="{{ url_for('article', article_id=a.id) }}"><img src="{{ url_for('static', filename=a.image) }}" alt="{{ a.title }}"></a>
+                {% endif %}
+                <div>
+                    <h3><a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a></h3>
+                    <p>{{ a.summary }}</p>
+                    <span class="muted">{{ a.created_at|date }} | просмотров: {{ a.views }}</span>
+                </div>
+            </div>
+            {% else %}
+            <p>В разделе пока нет статей.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <div class="side-box">
+            <h3>Разделы</h3>
+            <ul class="side-menu">
+                {% for c in menu_categories %}
+                <li><a href="{{ url_for('category', slug=c.slug) }}" class="{{ 'active' if c.id == cat.id }}">{{ c.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

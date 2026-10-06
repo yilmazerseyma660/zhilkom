@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% set what = 'новость' if kind == 'news' else 'статью' %}
+{% block title %}{{ 'Редактирование' if item else 'Добавление' }}{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Панель управления</h1>
+{% include 'panel/_nav.html' %}
+
+<h2>{{ 'Изменить ' ~ what if item else 'Добавить ' ~ what }}</h2>
+
+<form method="post" enctype="multipart/form-data" class="form">
+    <label>Заголовок *
+        <input type="text" name="title" value="{{ form.get('title') or '' }}" required maxlength="200">
+    </label>
+
+    {% if kind == 'article' %}
+    <label>Раздел
+        <select name="category_id">
+            {% for c in categories %}
+            <option value="{{ c.id }}" {{ 'selected' if form.get('category_id')|string == c.id|string }}>{{ c.title }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    {% endif %}
+
+    <label>Дата публикации
+        <input type="date" name="date" value="{{ form.get('date') or '' }}">
+    </label>
+    <label>Краткое описание (для списков)
+        <input type="text" name="summary" value="{{ form.get('summary') or '' }}" maxlength="300">
+    </label>
+    <label>Текст * (абзацы разделяются пустой строкой)
+        <textarea name="body" rows="14" required>{{ form.get('body') or '' }}</textarea>
+    </label>
+
+    <div class="form-row">
+        <label>Картинка из готовых
+            <select name="image">
+                <option value="">без картинки</option>
+                {% for img in images %}
+                <option value="{{ img }}" {{ 'selected' if form.get('image') == img }}>{{ img.split('/')[-1] }}</option>
+                {% endfor %}
+                {% if form.get('image') and form.get('image') not in images %}
+                <option value="{{ form.get('image') }}" selected>загруженная ранее</option>
+                {% endif %}
+            </select>
+        </label>
+        <label>или загрузить свою (png, jpg, до 4 МБ)
+            <input type="file" name="image_file" accept="image/*">
+        </label>
+    </div>
+
+    <button type="submit" class="btn">Сохранить</button>
+    <a href="{{ url_for('panel_content') }}" class="btn btn-grey">Отмена</a>
+</form>
+{% endblock %}

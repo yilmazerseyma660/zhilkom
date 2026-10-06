@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="auth-box wide">
+    <h1 class="page-title">Регистрация</h1>
+    <p>После регистрации вы сможете отправлять обращения в комитет и видеть ответы специалистов.</p>
+    <form method="post" class="form">
+        <label>ФИО *
+            <input type="text" name="fio" value="{{ form.get('fio', '') }}" required>
+        </label>
+        <div class="form-row">
+            <label>Логин *
+                <input type="text" name="login" value="{{ form.get('login', '') }}" required>
+            </label>
+            <label>E-mail
+                <input type="email" name="email" value="{{ form.get('email', '') }}">
+            </label>
+        </div>
+        <div class="form-row">
+            <label>Телефон
+                <input type="text" name="phone" value="{{ form.get('phone', '') }}" placeholder="+7">
+            </label>
+            <label>Адрес проживания
+                <input type="text" name="address" value="{{ form.get('address', '') }}">
+            </label>
+        </div>
+        <div class="form-row">
+            <label>Пароль * (не меньше 6 символов)
+                <input type="password" name="password" required>
+            </label>
+            <label>Повторите пароль *
+                <input type="password" name="password2" required>
+            </label>
+        </div>
+        <label class="check">
+            <input type="checkbox" name="agree" value="1">
+            Согласен(на) на обработку персональных данных
+        </label>
+        <button type="submit" class="btn">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть учётная запись? <a href="{{ url_for('login') }}">Войти</a></p>
+</div>
+{% endblock %}

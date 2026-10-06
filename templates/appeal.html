@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Обращение №{{ item.id }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs">
+    <a href="{{ url_for('index') }}">Главная</a> /
+    {% if current_user.is_staff %}
+    <a href="{{ url_for('panel') }}">Панель управления</a> /
+    {% else %}
+    <a href="{{ url_for('cabinet') }}">Личный кабинет</a> /
+    {% endif %}
+    Обращение №{{ item.id }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Обращение №{{ item.id }}: {{ item.topic }}</h1>
+<p>
+    Заявитель: {{ item.user.fio }}{% if item.user.address %}, {{ item.user.address }}{% endif %}<br>
+    Дата: {{ item.created_at.strftime('%d.%m.%Y %H:%M') }}<br>
+    Статус: <span class="status st-{{ item.status }}">{{ item.status_name }}</span>
+</p>
+
+<div class="chat">
+    {% for m in item.messages %}
+    <div class="msg {{ 'msg-staff' if m.author.is_staff else 'msg-user' }}">
+        <div class="msg-head">
+            <b>{{ m.author.fio }}</b>
+            {% if m.author.is_staff %}<span class="muted">({{ m.author.role_name }})</span>{% endif %}
+            <span class="muted">{{ m.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+        </div>
+        <div class="msg-text">{{ m.text }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if item.status != 'closed' or current_user.is_staff %}
+<form method="post" class="form reply-form">
+    <label>{{ 'Ответ заявителю' if current_user.is_staff else 'Ваше сообщение' }}
+        <textarea name="text" rows="4"></textarea>
+    </label>
+    {% if current_user.is_staff %}
+    <label>Статус обращения
+        <select name="status">
+            {% for key, name in statuses.items() %}
+            <option value="{{ key }}" {{ 'selected' if key == item.status }}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    {% endif %}
+    <button type="submit" class="btn">Отправить</button>
+</form>
+{% else %}
+<p class="muted">Обращение закрыто. Если вопрос остался, создайте новое обращение в личном кабинете.</p>
+{% endif %}
+{% endblock %}

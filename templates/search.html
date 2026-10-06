@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Поиск{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Поиск</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Поиск по сайту</h1>
+
+<form action="{{ url_for('search') }}" method="get" class="search-big">
+    <input type="text" name="q" value="{{ q }}" placeholder="Например: капремонт">
+    <button type="submit" class="btn">Найти</button>
+</form>
+
+{% if q and q|length >= 3 %}
+    <p>По запросу «{{ q }}» найдено: {{ found_news|length + found_articles|length }}</p>
+
+    {% if found_articles %}
+    <h2>Статьи</h2>
+    <ul class="result-list">
+        {% for a in found_articles %}
+        <li>
+            <a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a>
+            <span class="muted">{{ a.category.title }}, {{ a.created_at|date }}</span>
+            <p>{{ a.summary }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if found_news %}
+    <h2>Новости</h2>
+    <ul class="result-list">
+        {% for n in found_news %}
+        <li>
+            <a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a>
+            <span class="muted">{{ n.created_at|date }}</span>
+            <p>{{ n.summary }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if not found_news and not found_articles %}
+    <p>Ничего не нашлось. Попробуйте другое слово или посмотрите <a href="{{ url_for('sitemap') }}">карту сайта</a>.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

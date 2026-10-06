@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Редактирование пользователя' if edit else 'Новый пользователь' }}{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Панель управления</h1>
+{% include 'panel/_nav.html' %}
+
+<h2>{{ 'Редактирование: ' ~ edit.login if edit else 'Новый пользователь' }}</h2>
+
+<form method="post" class="form form-narrow">
+    <label>Логин *
+        {% if edit %}
+        <input type="text" value="{{ form.login }}" disabled>
+        {% else %}
+        <input type="text" name="login" value="{{ form.get('login', '') }}" required>
+        {% endif %}
+    </label>
+    <label>ФИО *
+        <input type="text" name="fio" value="{{ form.get('fio', '') }}" required>
+    </label>
+    <label>E-mail
+        <input type="email" name="email" value="{{ form.get('email') or '' }}">
+    </label>
+    <label>Телефон
+        <input type="text" name="phone" value="{{ form.get('phone') or '' }}">
+    </label>
+    <label>Адрес
+        <input type="text" name="address" value="{{ form.get('address') or '' }}">
+    </label>
+
+    {% if not edit or edit.id != current_user.id %}
+    <label>Роль
+        <select name="role">
+            {% for key in allowed %}
+            <option value="{{ key }}" {{ 'selected' if form.get('role') == key }}>{{ roles[key] }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    {% endif %}
+
+    {% if edit and edit.id != current_user.id %}
+    <label class="check">
+        <input type="checkbox" name="active" value="1" {{ 'checked' if form.active }}>
+        Учётная запись активна
+    </label>
+    {% endif %}
+
+    {% if edit %}<p class="muted">Пароль меняется, только если заполнить оба поля.</p>{% endif %}
+    <label>Пароль {{ '' if edit else '*' }}
+        <input type="password" name="password" {{ '' if edit else 'required' }}>
+    </label>
+    <label>Повторите пароль
+        <input type="password" name="password2" {{ '' if edit else 'required' }}>
+    </label>
+
+    <button type="submit" class="btn">Сохранить</button>
+    <a href="{{ url_for('panel_users') }}" class="btn btn-grey">Отмена</a>
+</form>
+{% endblock %}

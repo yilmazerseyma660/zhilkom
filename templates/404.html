@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-code">404</div>
+    <h1>Страница не найдена</h1>
+    {% if page %}
+    <p>Адреса <b>{{ page }}</b> на сайте нет. Возможно, страница была удалена или в ссылке опечатка.</p>
+    {% else %}
+    <p>Такой страницы на сайте нет. Возможно, она была удалена или в ссылке опечатка.</p>
+    {% endif %}
+    <p>
+        <a href="{{ url_for('index') }}" class="btn">На главную</a>
+        <a href="{{ url_for('sitemap') }}" class="btn btn-grey">Карта сайта</a>
+    </p>
+</div>
+{% endblock %}

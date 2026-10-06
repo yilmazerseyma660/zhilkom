@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Личный кабинет{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Личный кабинет</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Личный кабинет</h1>
+<p>{{ current_user.fio }}, роль: <b>{{ current_user.role_name }}</b></p>
+
+<div class="two-cols">
+    <div>
+        <h2>Мои обращения</h2>
+        {% if appeals %}
+        <table class="table">
+            <tr><th>№</th><th>Тема</th><th>Дата</th><th>Статус</th></tr>
+            {% for a in appeals %}
+            <tr>
+                <td>{{ a.id }}</td>
+                <td><a href="{{ url_for('appeal', appeal_id=a.id) }}">{{ a.topic }}</a></td>
+                <td>{{ a.created_at|date }}</td>
+                <td><span class="status st-{{ a.status }}">{{ a.status_name }}</span></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="muted">Вы ещё не отправляли обращений.</p>
+        {% endif %}
+
+        <h2>Новое обращение</h2>
+        <form method="post" class="form">
+            <label>Тема *
+                <input type="text" name="topic" required maxlength="200">
+            </label>
+            <label>Текст обращения *
+                <textarea name="text" rows="6" required></textarea>
+            </label>
+            <button type="submit" class="btn">Отправить обращение</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Мои данные</h2>
+        <form method="post" action="{{ url_for('profile') }}" class="form">
+            <label>Логин
+                <input type="text" value="{{ current_user.login }}" disabled>
+            </label>
+            <label>ФИО *
+                <input type="text" name="fio" value="{{ current_user.fio }}" required>
+            </label>
+            <label>E-mail
+                <input type="email" name="email" value="{{ current_user.email or '' }}">
+            </label>
+            <label>Телефон
+                <input type="text" name="phone" value="{{ current_user.phone or '' }}">
+            </label>
+            <label>Адрес
+                <input type="text" name="address" value="{{ current_user.address or '' }}">
+            </label>
+            <p class="muted">Чтобы сменить пароль, заполните оба поля ниже.</p>
+            <label>Новый пароль
+                <input type="password" name="password">
+            </label>
+            <label>Повторите пароль
+                <input type="password" name="password2">
+            </label>
+            <button type="submit" class="btn">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

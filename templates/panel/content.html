@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Новости и статьи{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Панель управления</h1>
+{% include 'panel/_nav.html' %}
+
+<h2>Новости</h2>
+<p><a href="{{ url_for('content_form', kind='news') }}" class="btn">Добавить новость</a></p>
+<table class="table">
+    <tr><th>Дата</th><th>Заголовок</th><th></th></tr>
+    {% for n in news %}
+    <tr>
+        <td>{{ n.created_at|date }}</td>
+        <td><a href="{{ url_for('news_item', news_id=n.id) }}">{{ n.title }}</a></td>
+        <td class="actions">
+            <a href="{{ url_for('content_form', kind='news', item_id=n.id) }}">изменить</a>
+            <form method="post" action="{{ url_for('content_delete', kind='news', item_id=n.id) }}" class="confirm-delete">
+                <button type="submit" class="link-btn">удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Статьи</h2>
+<p><a href="{{ url_for('content_form', kind='article') }}" class="btn">Добавить статью</a></p>
+<table class="table">
+    <tr><th>Дата</th><th>Заголовок</th><th>Раздел</th><th>Просмотры</th><th></th></tr>
+    {% for a in articles %}
+    <tr>
+        <td>{{ a.created_at|date }}</td>
+        <td><a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a></td>
+        <td>{{ a.category.title }}</td>
+        <td>{{ a.views }}</td>
+        <td class="actions">
+            <a href="{{ url_for('content_form', kind='article', item_id=a.id) }}">изменить</a>
+            <form method="post" action="{{ url_for('content_delete', kind='article', item_id=a.id) }}" class="confirm-delete">
+                <button type="submit" class="link-btn">удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

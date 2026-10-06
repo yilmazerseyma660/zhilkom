@@ -1,0 +1,5 @@
+<div class="tabs">
+    <a href="{{ url_for('panel') }}" class="{{ 'active' if request.endpoint == 'panel' }}">Обращения и сообщения</a>
+    <a href="{{ url_for('panel_users') }}" class="{{ 'active' if request.endpoint in ('panel_users', 'user_new', 'user_edit') }}">Пользователи</a>
+    <a href="{{ url_for('panel_content') }}" class="{{ 'active' if request.endpoint in ('panel_content', 'content_form') }}">Новости и статьи</a>
+</div>

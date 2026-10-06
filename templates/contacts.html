@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Контакты{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs"><a href="{{ url_for('index') }}">Главная</a> / Контакты</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Контакты</h1>
+
+<div class="two-cols">
+    <div>
+        <h2>Как нас найти</h2>
+        <p>
+            <b>Адрес:</b> 628400, г. Северогорск, ул. Ленина, д. 24, 1 этаж<br>
+            <b>Приёмная:</b> 8 (3452) 55-21-40<br>
+            <b>Факс:</b> 8 (3452) 55-21-39<br>
+            <b>E-mail:</b> info@zhilkom-sev.ru
+        </p>
+        <p>
+            <b>Режим работы:</b><br>
+            понедельник – пятница: 8:30 – 17:30<br>
+            обед: 12:30 – 14:00<br>
+            суббота, воскресенье: выходной
+        </p>
+        <p class="muted">Проезд: автобусы № 2, 7, 11 до остановки «Площадь Ленина».</p>
+
+        <h2>Телефоны отделов</h2>
+        <table class="table">
+            <tr><td>Учёт и распределение жилья</td><td>55-21-45</td></tr>
+            <tr><td>Жилищные программы</td><td>55-21-47</td></tr>
+            <tr><td>Жилищный контроль</td><td>55-21-50</td></tr>
+            <tr><td>Работа с обращениями</td><td>55-21-52</td></tr>
+        </table>
+    </div>
+
+    <div>
+        <h2>Написать в комитет</h2>
+        {% if current_user %}
+        <div class="note">
+            Вы вошли на сайт, поэтому удобнее отправить
+            <a href="{{ url_for('cabinet') }}">обращение из личного кабинета</a> —
+            там будет видна вся переписка и статус ответа.
+        </div>
+        {% endif %}
+        <form method="post" class="form">
+            <label>Ваше имя *
+                <input type="text" name="name" value="{{ form.get('name', '') }}" required>
+            </label>
+            <label>E-mail для ответа
+                <input type="email" name="email" value="{{ form.get('email', '') }}">
+            </label>
+            <label>Сообщение *
+                <textarea name="text" rows="6" required>{{ form.get('text', '') }}</textarea>
+            </label>
+            <button type="submit" class="btn">Отправить сообщение</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

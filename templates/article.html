@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="crumbs">
+    <a href="{{ url_for('index') }}">Главная</a> /
+    <a href="{{ url_for('materials') }}">Материалы</a> /
+    <a href="{{ url_for('category', slug=item.category.slug) }}">{{ item.category.title }}</a> /
+    {{ item.title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="layout">
+    <article class="content text">
+        <h1 class="page-title">{{ item.title }}</h1>
+        <p class="date">{{ item.created_at|date_ru }}, раздел «{{ item.category.title }}»</p>
+        {% if item.image %}
+        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}" class="img-right">
+        {% endif %}
+        {% for p in item.body.split('\n\n') %}
+        <p>{{ p }}</p>
+        {% endfor %}
+
+        <div class="note">
+            Остались вопросы? Задайте их специалисту через
+            <a href="{{ url_for('cabinet') }}">личный кабинет</a> или по телефону 55-21-40.
+        </div>
+
+        {% if other %}
+        <h2 class="section-title">Ещё в этом разделе</h2>
+        <ul class="plain-list">
+            {% for a in other %}
+            <li><a href="{{ url_for('article', article_id=a.id) }}">{{ a.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </article>
+
+    <aside class="sidebar">
+        <div class="side-box">
+            <h3>Разделы</h3>
+            <ul class="side-menu">
+                {% for c in menu_categories %}
+                <li><a href="{{ url_for('category', slug=c.slug) }}" class="{{ 'active' if c.id == item.category_id }}">{{ c.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

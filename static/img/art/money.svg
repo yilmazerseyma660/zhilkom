@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <rect width="600" height="360" fill="#f6f1e6"/>
+  <polygon points="200,80 320,160 80,160" fill="#1f4e79"/>
+  <rect x="100" y="160" width="200" height="140" fill="#dce6ef"/>
+  <rect x="180" y="220" width="40" height="80" fill="#173a5a"/>
+  <g fill="#c08a2a" stroke="#a5762a" stroke-width="3">
+    <ellipse cx="430" cy="290" rx="70" ry="18"/><ellipse cx="430" cy="268" rx="70" ry="18"/>
+    <ellipse cx="430" cy="246" rx="70" ry="18"/><ellipse cx="430" cy="224" rx="70" ry="18"/>
+    <ellipse cx="430" cy="202" rx="70" ry="18"/>
+  </g>
+  <text x="430" y="210" font-family="Arial" font-size="26" font-weight="bold" fill="#fff" text-anchor="middle">₽</text>
+</svg>
